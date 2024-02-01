@@ -11,7 +11,7 @@ class StoreCompanyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'     => "bail|required|min:4|max:255",
+            'location' => "bail|required|min:10|max:255",
+            // 'logo'     => "bail|required|image|mimes:jpeg,png,jpg,webp|max:5100",
         ];
     }
 }

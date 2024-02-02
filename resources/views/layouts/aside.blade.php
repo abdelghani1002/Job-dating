@@ -69,14 +69,16 @@
 
             <div>
                 <li>
-                    <a href="{{ route("logout") }}" class="flex flex-row-reverse md:flex-row justify-between md:justify-normal items-center text-gray-900 rounded-lg bg-gray-300 dark:hover:bg-gray-700 group ">
-                        <span class="w-full flex items-center m-0 md:ms-3 whitespace-nowrap dark:text-gray-600 font-semibold dark:hover:text-gray-300 p-2">
+                    <form action="{{ route("logout") }}" method="POST" class="flex flex-row-reverse md:flex-row justify-between md:justify-normal items-center text-gray-900 rounded-lg bg-gray-300 dark:hover:bg-gray-700 group m-0">
+                        @csrf
+                        @method("POST")
+                        <button class="w-full flex items-center m-0 md:ms-3 whitespace-nowrap dark:text-gray-600 font-semibold dark:hover:text-gray-300 p-2">
                             <svg class="rotate-180 flex-shrink-0 w-5 h-5 mr-3 text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
                             </svg>
                             Log out
-                        </span>
-                    </a>
+                        </button>
+                    </form>
                 </li>
             </div>
         </ul>

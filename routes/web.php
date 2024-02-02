@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,9 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 /* Home page */
 
-Route::get('/', function () {
-    return view('home');
-})->name("home");
+Route::get('/', [HomeController::class,'index'])->name("home");
 
 /* Dashboard */
 Route::prefix("dashboard")->middleware(['auth', 'verified'])->group(function () {
@@ -31,8 +30,9 @@ Route::prefix("dashboard")->middleware(['auth', 'verified'])->group(function () 
     Route::resource('companies', CompanyController::class);
 
     /* Announcements resource */
-    Route::resource('announcements', AnnouncementController::class);
+    Route::resource('announcements', AnnouncementController::class)->except(['show']);
 });
+Route::get('/announcements/{announcement}', [AnnouncementController::class, 'show'])->name("announcements.show");
 
 /* Auth */
 Route::middleware('auth')->group(function () {

@@ -15,12 +15,8 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <!-- Styles -->
-    <style>
-        .activ{
-            background-color: gray;
-        }
-    </style>
+    <!-- Insert the blade containing the TinyMCE configuration and source script -->
+    {{-- <x-head.tinymce-config/> --}}
 </head>
 
 <body class="font-sans antialiased">

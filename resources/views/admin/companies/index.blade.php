@@ -1,6 +1,6 @@
 <style>
     .companies {
-        background-color: rgba(128, 128, 128, 0.489);
+        background-color: rgba(255, 255, 255, 0.09);
     }
 </style>
 <x-app-layout>

@@ -11,7 +11,7 @@ class StoreAnnouncementRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreAnnouncementRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title'       => "bail|required|min:10|max:255",
+            'start_date'  => "bail|required|date|after:tomorrow",
+            'end_date'    => "bail|required|date|after:start_date",
+            'description' => "bail|required|min:100",
         ];
     }
 }

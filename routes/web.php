@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -30,7 +31,7 @@ Route::prefix("dashboard")->middleware(['auth', 'verified'])->group(function () 
     Route::resource('companies', CompanyController::class);
 
     /* Announcements resource */
-    Route::resource('announcements', CompanyController::class);
+    Route::resource('announcements', AnnouncementController::class);
 });
 
 /* Auth */

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Announcement;
 use App\Http\Requests\StoreAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
+use App\Models\Company;
 
 class AnnouncementController extends Controller
 {
@@ -13,7 +14,8 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
-        //
+        $announcements = Announcement::latest()->paginate(6);
+        return view('admin.announcements.index', ["announcements" => $announcements]);
     }
 
     /**
@@ -21,7 +23,8 @@ class AnnouncementController extends Controller
      */
     public function create()
     {
-        //
+        $companies = Company::all();
+        return view("admin.announcements.create", compact("companies"));
     }
 
     /**
@@ -29,7 +32,14 @@ class AnnouncementController extends Controller
      */
     public function store(StoreAnnouncementRequest $request)
     {
-        //
+        $parteners = $request->parteners;
+        if ($parteners[0] == null) {
+            return redirect()->back()->withErrors(["parteners" => "Parteners are required"])->withInput();
+        }
+        $announcement = new Announcement($request->validated());
+        $announcement->save();
+        $announcement->addParteners($parteners);
+        return redirect()->route("announcements.index", [], 201)->with('success', "Announcement created successfully.");
     }
 
     /**
@@ -37,7 +47,8 @@ class AnnouncementController extends Controller
      */
     public function show(Announcement $announcement)
     {
-        //
+        $parteners = $announcement->companies;
+        return view("admin.announcements.show", compact(['announcement', 'parteners']));
     }
 
     /**
@@ -45,7 +56,8 @@ class AnnouncementController extends Controller
      */
     public function edit(Announcement $announcement)
     {
-        //
+        $companies = Company::all();
+        return view("admin.announcements.edit", compact(['announcement', 'companies']));
     }
 
     /**
@@ -53,7 +65,13 @@ class AnnouncementController extends Controller
      */
     public function update(UpdateAnnouncementRequest $request, Announcement $announcement)
     {
-        //
+        $parteners = $request->parteners;
+        if ($parteners[0] == null) {
+            return redirect()->back()->withErrors(["parteners" => "Parteners are required"])->withInput();
+        }
+        $announcement->update($request->validated());
+        $announcement->addParteners($parteners);
+        return redirect()->route("announcements.index", [], 201)->with('success', "Announcement updated successfully.");
     }
 
     /**
@@ -61,6 +79,8 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement)
     {
-        //
+        $announcement->removeParteners($announcement->companies);
+        $announcement->delete();
+        return redirect()->back()->with("success", "Announcement has deleted successfully");
     }
 }

@@ -24,7 +24,8 @@ class StoreCompanyRequest extends FormRequest
         return [
             'name'     => "bail|required|min:4|max:255",
             'location' => "bail|required|min:10|max:255",
-            // 'logo'     => "bail|required|image|mimes:jpeg,png,jpg,webp|max:5100",
+            'description' => "min:10",
+            'logo'     => "bail|file|mimes:jpeg,png,jpg,gif,svg|max:2048",
         ];
     }
 }

@@ -20,6 +20,7 @@ class Company extends Model
         'name',
         'location',
         'description',
+        'logo',
     ];
 
     public function announcements()

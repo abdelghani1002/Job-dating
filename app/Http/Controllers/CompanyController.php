@@ -30,7 +30,14 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        Company::create($request->validated());
+        $data = $request->validated();
+        if ($request->hasFile('logo')) {
+            $logoName = uniqid("company_") . '.' . $request->logo->extension();
+            $request->logo->move(public_path('storage/logos'), $logoName);
+            $data['logo'] = $logoName;
+        }
+        // dd($data);
+        Company::create($data);
         return redirect()->route("companies.index", [], 201)->with('success', "Company created successfully.");
     }
 
@@ -55,7 +62,17 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        $company->update($request->validated());
+        $data = $request->validated();
+        if ($request->hasFile('logo')) {
+            if ($company->logo) {
+                unlink(public_path('storage/logos/') . $company->logo);
+            }
+            $logoName = uniqid("company_") . '.' . $request->logo->extension();
+            $data['logo'] = $logoName;
+            if (!$request->logo->move(public_path('storage/logos'), $logoName))
+                return redirect()->route("companies.create")->with('error', "Error wihing storing company logo");
+            $company->update($data);
+        }
         return redirect()->route("companies.index")->with('success', "Company updated successfully.");
     }
 

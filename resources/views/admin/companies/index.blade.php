@@ -43,8 +43,7 @@
 
                                 <td class="p-2 border-r border-white">
                                     <div class="flex flex-row items-center gap-x-2">
-                                        {{-- <img class="w-7 h-7 rounded-full" src="" alt="{{ $company->name }} logo"> --}}
-                                        (LOGO)
+                                        <img class="w-7 h-7 rounded-full" src="{{ asset("storage/logos/" . $company->logo) }}" alt="{{ $company->name }} logo">
                                         <p class="font-semibold">{{ $company->name }}</p>
                                     </div>
                                 </td>

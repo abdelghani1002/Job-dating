@@ -81,7 +81,7 @@
                                 <option class="hidden" value="">Select companies</option>
                                 @foreach ($companies as $company)
                                     <option value="{{ $company->id }}"
-                                        @if ($company->id == $announcement->companies[0]->id)
+                                        @if ( isset($announcement->companies[0]->id) && $company->id == $announcement->companies[0]->id)
                                             {{ 'selected' }}
                                         @endif
                                     >

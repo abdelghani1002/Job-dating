@@ -36,7 +36,6 @@ class CompanyController extends Controller
             $request->logo->move(public_path('storage/logos'), $logoName);
             $data['logo'] = $logoName;
         }
-        // dd($data);
         Company::create($data);
         return redirect()->route("companies.index", [], 201)->with('success', "Company created successfully.");
     }
@@ -71,8 +70,8 @@ class CompanyController extends Controller
             $data['logo'] = $logoName;
             if (!$request->logo->move(public_path('storage/logos'), $logoName))
                 return redirect()->route("companies.create")->with('error', "Error wihing storing company logo");
-            $company->update($data);
         }
+        $company->update($data);
         return redirect()->route("companies.index")->with('success', "Company updated successfully.");
     }
 

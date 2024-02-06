@@ -1,3 +1,8 @@
+<style>
+    .companies {
+        background-color: rgba(255, 255, 255, 0.09);
+    }
+</style>
 <x-app-layout>
     <div class="w-full flex flex-row h-full">
         @include('layouts.aside')

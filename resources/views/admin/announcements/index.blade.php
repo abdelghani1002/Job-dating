@@ -24,8 +24,8 @@
 
             <div class="flex flex-col justify-between h-[79dvh] w-full">
 
-                <!-- Wikis Table -->
-                <table id="wikis_table" class="table-auto w-full text-sm whitespace-no-wrap border-spacing-2 px-2 pb-2">
+                <!-- Announcements Table -->
+                <table id="announcements_table" class="table-auto w-full text-sm whitespace-no-wrap border-spacing-2 px-2 pb-2">
                     <thead class="">
                         <tr class="bg-gray-400">
                             <th class="p-1 border-r border-gray-200">Title</th>

@@ -81,6 +81,9 @@ class CompanyController extends Controller
     public function destroy(Company $company)
     {
         $company->delete();
+        if ($company->logo) {
+            unlink(public_path('storage/logos/') . $company->logo);
+        }
         return redirect()->back()->with("success", "Company has deleted successfully");
     }
 }

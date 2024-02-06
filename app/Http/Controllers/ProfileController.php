@@ -27,6 +27,12 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
+        if ($request->hasFile('photo')) {
+            $photoName = uniqid("photo_") . '.' . $request->logo->extension();
+            $request->logo->move(public_path('storage/photos'), $photoName);
+            $request->user()->photo = $photoName;
+        } else // by default
+            $request->user()->photo = "profil.png";
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
@@ -51,6 +57,9 @@ class ProfileController extends Controller
         Auth::logout();
 
         $user->delete();
+        if ($user->photo) {
+            unlink(public_path('storage/photos/') . $user->photo);
+        }
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

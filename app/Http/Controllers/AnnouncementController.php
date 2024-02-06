@@ -14,7 +14,7 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
-        $announcements = Announcement::latest()->paginate(6);
+        $announcements = Announcement::withTrached()->latest()->paginate(6);
         return view('admin.announcements.index', ["announcements" => $announcements]);
     }
 

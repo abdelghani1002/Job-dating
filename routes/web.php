@@ -5,6 +5,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SkillController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,10 @@ Route::prefix("dashboard")->middleware(['auth', 'verified'])->group(function () 
 
     /* Announcements resource */
     Route::resource('announcements', AnnouncementController::class)->except(['show']);
+
+    /* Skills resource */
+    Route::resource('skills', SkillController::class)->except(['show', 'edit', 'create', 'update']);
+    Route::put('/skills', [SkillController::class, "update"]);
 });
 Route::get('/announcements/{announcement}', [AnnouncementController::class, 'show'])->name("announcements.show");
 

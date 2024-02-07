@@ -31,10 +31,9 @@
                             <th class="p-1 border-r border-gray-200">Title</th>
                             <th class="p-1 border-r border-gray-200">Start date</th>
                             <th class="p-1 border-r border-gray-200">End date</th>
-                            <th class="p-1 border-r border-gray-200" colspan="2">
+                            <th class="p-1 border-r border-gray-200" colspan="3">
                                 Manage
                             </th>
-                            <th class="p-1">View</th>
                         </tr>
                     </thead>
                     <tbody>

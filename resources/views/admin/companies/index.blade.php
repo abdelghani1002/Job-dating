@@ -30,10 +30,9 @@
                         <tr class="bg-gray-400">
                             <th class="p-1 border-r border-gray-200">Name</th>
                             <th class="p-1 border-r border-gray-200">Location</th>
-                            <th class="p-1 border-r border-gray-200" colspan="2">
+                            <th class="p-1 border-r border-gray-200" colspan="3">
                                 Manage
                             </th>
-                            <th class="p-1">View</th>
                         </tr>
                     </thead>
                     <tbody>

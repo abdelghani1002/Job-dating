@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -45,4 +47,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get all user's skills.
+     */
+    public function skills()
+    {
+        return $this->morphToMany(Skill::class, 'skillable');
+    }
+
+    /**
+     * update user's skills.
+     */
+    public function update_skills(Collection $skills)
+    {
+        $this->skills()->sync($skills);
+        return 'attached';
+    }
 }

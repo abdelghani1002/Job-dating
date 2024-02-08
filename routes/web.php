@@ -41,6 +41,7 @@ Route::get('/announcements/{announcement}', [AnnouncementController::class, 'sho
 
 /* Auth */
 Route::middleware('auth')->group(function () {
+    Route::put('/profile/update_skills/{student}', [ProfileController::class, 'update_skills'])->name('profile.update_skills');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

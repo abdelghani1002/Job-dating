@@ -14,6 +14,11 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!-- Tom-select style -->
+    {{-- <link href="https://unpkg.com/tailwindcss@%5E2/dist/tailwind.min.css" rel="stylesheet" /> --}}
+    {{-- <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" /> --}}
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+
     <!-- Insert the blade containing the TinyMCE configuration and source script -->
     {{-- <x-head.tinymce-config/> --}}
 </head>
@@ -42,6 +47,24 @@
             var confirmation = confirm(`Are you sure you want to delete it!`);
             return confirmation;
         }
+    </script>
+    <!-- Include TomSelect (without jQuery) -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
+    <!-- Include jQuery separately, after TomSelect -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Initialize TomSelect -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new TomSelect('#select-skill', {
+                maxItems: 50,
+            });
+
+            new TomSelect('#select-partener', {
+                maxItems: 50,
+            });
+        });
     </script>
 </body>
 

@@ -11,7 +11,8 @@
                 <h2 class="text-2xl font-semibold mb-4 text-center dark:text-gray-300">New Company</h2>
 
                 <div class="flex flex-row justify-center">
-                    <form action="{{ route('companies.store') }}" enctype="multipart/form-data" method="post" class="max-w-md w-full flex flex-col">
+                    <form action="{{ route('companies.store') }}" enctype="multipart/form-data" method="post"
+                        class="max-w-md w-full flex flex-col">
                         @csrf
                         @method('POST')
 

@@ -25,13 +25,13 @@ class Announcement extends Model
 
     public function companies()
     {
-        return $this->belongsToMany(Company::class)->withTimestamps()->as('parteners');
+        return $this->belongsToMany(Company::class);
     }
 
     /**
      * Add the announcements partners.
      */
-    public function addParteners(array $parteners): string
+    public function update_parteners(Collection $parteners): string
     {
         $this->companies()->sync($parteners);
         return "attached";
@@ -44,5 +44,22 @@ class Announcement extends Model
     {
         $this->companies()->detach($parteners);
         return "dettached";
+    }
+
+    /**
+     * Get all announcement's required skills.
+     */
+    public function skills()
+    {
+        return $this->morphToMany(Skill::class, 'skillable');
+    }
+
+    /**
+     * update announcement's required skills.
+     */
+    public function update_skills(Collection $skills)
+    {
+        $this->skills()->sync($skills);
+        return 'attached';
     }
 }

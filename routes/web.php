@@ -6,6 +6,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +27,9 @@ Route::get('/', [HomeController::class,'index'])->name("home");
 /* Dashboard */
 Route::prefix("dashboard")->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [AdminController::class, "dashboard"])->name("dashboard");
+
+    /* User resource */
+    Route::resource('users', UserController::class)->except(["create", "store"]);
 
     /* Companies resource */
     Route::resource('companies', CompanyController::class);

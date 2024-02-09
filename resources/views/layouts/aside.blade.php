@@ -93,7 +93,7 @@
                 <!-- Skills -->
                 <li>
                     <a href="{{ route('skills.index') }}"
-                        class="users flex flex-row-reverse md:flex-row justify-between md:justify-normal items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
+                        class="skills flex flex-row-reverse md:flex-row justify-between md:justify-normal items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
                         <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 64 64"
                             id="SkillChangeConcept">
@@ -111,7 +111,7 @@
 
                 <!-- Users -->
                 <li>
-                    <a href="{{ route('skills.index') }}"
+                    <a href="{{ route('users.index') }}"
                         class="users flex flex-row-reverse md:flex-row justify-between md:justify-normal items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
                         <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="user">

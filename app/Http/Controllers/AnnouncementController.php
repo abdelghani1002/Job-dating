@@ -7,6 +7,7 @@ use App\Http\Requests\StoreAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
 use App\Models\Company;
 use App\Models\Skill;
+use Illuminate\Support\Facades\Auth;
 
 class AnnouncementController extends Controller
 {
@@ -100,5 +101,19 @@ class AnnouncementController extends Controller
         $announcement->removeParteners($announcement->companies);
         $announcement->delete();
         return redirect()->back()->with("success", "Announcement has deleted successfully");
+    }
+
+    /**
+     * Add a student candidate.
+     */
+    public function apply(Announcement $announcement)
+    {
+        $student = Auth::user();
+        if (!$student->applyed_announcements->contains($announcement)) {
+            if ($student->apply_to_announcement($announcement))
+                return redirect()->back()->with("success", "Your candidat has been registred");
+            return redirect()->back()->with("error", "Error withen candidates!");
+        }
+        return redirect()->back()->with("infos", "You already applyed for this announcement!");
     }
 }

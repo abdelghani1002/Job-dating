@@ -36,6 +36,7 @@ Route::prefix("dashboard")->middleware(['auth', 'verified'])->group(function () 
 
     /* Announcements resource */
     Route::resource('announcements', AnnouncementController::class)->except(['show']);
+    Route::post('/announcements/apply/{announcement}', [AnnouncementController::class, 'apply'])->name("announcements.apply");
 
     /* Skills resource */
     Route::resource('skills', SkillController::class)->except(['show', 'edit', 'create', 'update']);

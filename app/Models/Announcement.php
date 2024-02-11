@@ -62,4 +62,12 @@ class Announcement extends Model
         $this->skills()->sync($skills);
         return 'attached';
     }
+
+    /**
+     * Get applyed students.
+     */
+    public function applyed_students()
+    {
+        $this->belongsToMany(User::class, "candidates");
+    }
 }

@@ -41,6 +41,9 @@
         <main>
             {{ $slot }}
         </main>
+
+        <!-- Page footer -->
+        @include("layouts.footer")
     </div>
 
     <!-- Include TomSelect (without jQuery) -->

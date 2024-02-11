@@ -69,6 +69,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
             'photo' => "bail|file|mimes:jpeg,png,jpg,gif,svg|max:5120",
+            'role' => "required"
         ]);
         if ($request->hasFile('photo')) {
             if (file_exists($old_photo)) {

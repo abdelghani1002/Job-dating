@@ -40,8 +40,9 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'photo' => "profil.png", // default profil photo
+            'photo' => "default.png", // default profil photo
         ]);
+        $user->assignRole('student');
 
         event(new Registered($user));
 

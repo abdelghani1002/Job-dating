@@ -64,6 +64,7 @@
                                 <x-input-label for="role" :value="__('Role')" />
                                 <select name="role" id="role"
                                     class="h-max w-full dark:bg-slate-900 border border-neutral-600 p-1.5 dark:text-gray-300 rounded-lg">
+                                    <option value="" class="hidden">Select role</option>
                                     <option value="admin" @if ($user->hasRole("admin"))
                                         selected
                                     @endif>admin</option>
@@ -71,6 +72,7 @@
                                         selected
                                     @endif>student</option>
                                 </select>
+                                <x-input-error class="mt-2" :messages="$errors->get('role')" />
                             </div>
                         </div>
 

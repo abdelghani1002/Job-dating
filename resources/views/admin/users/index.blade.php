@@ -52,7 +52,7 @@
                                         <div>
                                             @if ($user->hasRole('admin'))
                                                 <span class="p-1 rounded-md border border-violet-500 bg-violet-700">admin</span>
-                                            @else
+                                            @elseif($user->hasRole('student'))
                                                 <span class="p-1 rounded-md border border-blue-500 bg-blue-700">student</span>
                                             @endif
                                         </div>
@@ -77,7 +77,7 @@
                                 <td class="p-2 border-r border-white text-center">
                                     <a href="https://www.facebook.com" class="p-2 border rounded-md hover:bg-slate-700">
                                         <strong
-                                            class="p-1 rounded-full border border-yellow-300 text-yellow-400 mr-1">12{{-- {{ count($user->applyed_announcement) }} --}}</strong>
+                                            class="p-1 rounded-full border border-yellow-300 text-yellow-400 mr-1">{{ count($user->applyed_announcements) }}</strong>
                                         announcements
                                     </a>
                                 </td>

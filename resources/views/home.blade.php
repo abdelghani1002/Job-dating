@@ -24,13 +24,15 @@
     </section>
 
     <div class="mb-4 flex items-center justify-center w-full gap-5">
+        @auth
         <div class="w-1/6">
             <button id="showSuggestionsBtn"
                 class="w-full bg-purple-700 rounded-md py-3 text-cyan-200 font-semibold text-lg">
                 Show suggestions
             </button>
         </div>
-        <div class=" w-2/3">
+        @endauth
+        <div class="w-2/3">
             <form action="" class="flex justify-center">
                 <div class="relative w-full border-2 rounded-lg">
                     <div class="absolute top-4 left-3">
@@ -72,17 +74,19 @@
         </div>
     </div>
 
-    <div id="suggestions" class="hidden">
-        @unless (count($suggestions) == 0)
-            <div class="lg:grid lg:grid-cols-3 gap-4 space-y-4 md:space-y-0 mx-4">
-                @foreach ($suggestions as $suggestions)
-                    <x-announcement-card :announcement="$suggestions" />
-                @endforeach
-            </div>
-        @else
-            <p class="text-red-400 text-center w-full">No suggestions for you, Try to improve your skills</p>
-        @endunless
-    </div>
+    @auth
+        <div id="suggestions" class="hidden">
+            @unless (count($suggestions) == 0)
+                <div class="lg:grid lg:grid-cols-3 gap-4 space-y-4 md:space-y-0 mx-4">
+                    @foreach ($suggestions as $suggestions)
+                        <x-announcement-card :announcement="$suggestions" />
+                    @endforeach
+                </div>
+            @else
+                <p class="text-slate-400 text-center w-full p-2">No suggestions for you, Try to improve your skills</p>
+            @endunless
+        </div>
+    @endauth
 
 
     <script>

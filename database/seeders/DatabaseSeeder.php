@@ -3,10 +3,15 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Announcement;
+use App\Models\Company;
+use App\Models\Skill;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
-use Stringable;
+use Spatie\Permission\Traits\HasRoles;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,17 +21,32 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Admin',
-        //     'email' => 'admin@admin.com',
-        //     'photo' => "default.png",
-        //     'email_verified_at' => now(),
-        //     'password' => Hash::make('AZER1234'),
-        // ]);
-        // $role = Role::create(['name' => "admin"]);
-        // $admin = \App\Models\User::where('email', '=', 'admin@admin.com');
-        // $admin->assignRole('admin');
+        $admin = \App\Models\User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'photo' => "default.png",
+            'email_verified_at' => now(),
+            'password' => Hash::make('AZER1234'),
+        ]);
 
-        \App\Models\User::factory(50)->create();
+        $student = \App\Models\User::factory()->create([
+            'name' => 'abdelghani',
+            'email' => 'abd@elghani.com',
+            'photo' => "default.png",
+            'email_verified_at' => now(),
+            'password' => Hash::make('AZER1234'),
+        ]);
+        $admin_role = Role::create(['name' => "admin"]);
+        $student_role = Role::create(['name' => "student"]);
+        $admin->assignRole([$admin_role]);
+        $student->assignRole([$student_role]);
+        User::factory(20)->create();
+        $users = User::get();
+        foreach ($users as $user) {
+            $user->assignRole('role');
+        }
+        Skill::factory(20)->create();
+        Company::factory(20)->create();
+        Announcement::factory(20)->create();
     }
 }

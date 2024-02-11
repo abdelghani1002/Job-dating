@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Skill;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +20,7 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'user' => $request->user(),
+            'skills' => Skill::all(),
         ]);
     }
 
@@ -26,7 +29,16 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        $old_photo = public_path("storage/photos/" . $request->user()->photo);
         $request->user()->fill($request->validated());
+        if ($request->hasFile('photo')) {
+            if (file_exists($old_photo)) {
+                unlink($old_photo);
+            }
+            $photoName = uniqid("photo_") . '.' . $request->photo->extension();
+            $request->photo->move(public_path('storage/photos'), $photoName);
+            $request->user()->photo = $photoName;
+        }
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
@@ -51,10 +63,24 @@ class ProfileController extends Controller
         Auth::logout();
 
         $user->delete();
+        if ($user->photo) {
+            unlink(public_path('storage/photos/') . $user->photo);
+        }
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    /**
+     * Update user's skills
+     */
+    public function update_skills(Request $request, User $student)
+    {
+        $skillIds = $request->input('skills', []);
+        $skills = Skill::whereIn('id', $skillIds)->get();
+        $student->update_skills($skills);
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 }

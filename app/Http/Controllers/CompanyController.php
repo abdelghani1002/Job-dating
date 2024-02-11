@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
+use Exception;
 
 class CompanyController extends Controller
 {
@@ -13,7 +14,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::withTrashed()->latest()->paginate(6);
+        $companies = Company::latest()->paginate(6);
         return view('admin.companies.index', ["companies" => $companies]);
     }
 
@@ -33,7 +34,8 @@ class CompanyController extends Controller
         $data = $request->validated();
         if ($request->hasFile('logo')) {
             $logoName = uniqid("company_") . '.' . $request->logo->extension();
-            $request->logo->move(public_path('storage/logos'), $logoName);
+            if (!$request->logo->move(public_path('storage/logos'), $logoName))
+                return redirect()->route("companies.create")->with('error', "Error wihing storing company logo");
             $data['logo'] = $logoName;
         }
         Company::create($data);
@@ -63,8 +65,12 @@ class CompanyController extends Controller
     {
         $data = $request->validated();
         if ($request->hasFile('logo')) {
-            if ($company->logo) {
-                unlink(public_path('storage/logos/') . $company->logo);
+            if ($company->logo !== "default.jpg") {
+                try{
+                    unlink(public_path('storage/logos/') . $company->logo);
+                }catch(Exception $e){
+                    return redirect()->route("companies.create")->with('error', $e->getMessage()."\nError wihing storing company logo");
+                }
             }
             $logoName = uniqid("company_") . '.' . $request->logo->extension();
             $data['logo'] = $logoName;
@@ -81,6 +87,13 @@ class CompanyController extends Controller
     public function destroy(Company $company)
     {
         $company->delete();
+        if ($company->logo !== "default.jpg") {
+            try{
+                unlink(public_path('storage/logos/') . $company->logo);
+            }catch(Exception $e){
+                return redirect()->back()->with('error', $e->getMessage()."\nError wihing storing company logo");
+            }
+        }
         return redirect()->back()->with("success", "Company has deleted successfully");
     }
 }

@@ -1,5 +1,5 @@
 <style>
-    .companies {
+    .users {
         background-color: rgba(255, 255, 255, 0.09);
     }
 </style>
@@ -8,8 +8,8 @@
         @include('layouts.aside')
         <div class="w-5/6">
             <div class="flex flex-row items-center py-1 w-full px-2 justify-between">
-                <h3 class="text-2xl font-bold text-cyan-800 dark:text-cyan-300">Companies</h3>
-                <!-- Success&Error alert -->
+                <h3 class="text-2xl font-bold text-cyan-800 dark:text-cyan-300">Users</h3>
+                <!-- Success alert -->
                 @if (session('success'))
                     <p data-icon="success" data-title="Success." class="alert text-green-400 text-center">
                         {{ session('success') }}
@@ -19,66 +19,91 @@
                         {{ session('error') }}
                     </p>
                 @endif
-                <a class="cursor-pointer text-white font-bold bg-blue-600 rounded-xl p-2 h-10 hover:bg-blue-800"
-                    href="{{ route('companies.create') }}">
-                    + Add Company
-                </a>
             </div>
 
 
             <div class="flex flex-col justify-between h-[79dvh] w-full">
 
-                <!-- Companies Table -->
-                <table id="companies_table" class="table-auto w-full text-sm whitespace-no-wrap border-spacing-2 px-2 pb-2">
+                <!-- Users Table -->
+                <table id="users_table" class="table-auto w-full text-sm whitespace-no-wrap border-spacing-2 px-2 pb-2">
                     <thead class="">
                         <tr class="bg-gray-400">
                             <th class="p-1 border-r border-gray-200">Name</th>
-                            <th class="p-1 border-r border-gray-200">Location</th>
+                            <th class="p-1 border-r border-gray-200">email</th>
+                            <th class="p-1 border-r border-gray-200">applyed announcement</th>
                             <th class="p-1 border-r border-gray-200" colspan="3">
                                 Manage
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($companies as $company)
+                        @foreach ($users as $user)
                             <tr
                                 class="odd:bg-gray-200 even:bg-gray-300 dark:odd:bg-gray-800 dark:even:bg-gray-700 dark:text-gray-300">
 
                                 <td class="p-2 border-r border-white">
-                                    <div class="flex flex-row items-center gap-x-2">
-                                        <img class="w-7 h-7 rounded-full" src="{{ asset("storage/logos/" . $company->logo) }}" alt="{{ $company->name }} logo">
-                                        <p class="font-semibold">{{ $company->name }}</p>
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex flex-row items-center gap-x-2">
+                                            <img class="w-7 h-7 rounded-full"
+                                                src="{{ asset('storage/photos/' . $user->photo) }}"
+                                                alt="{{ $user->name }} photo">
+                                            <p class="font-semibold">{{ $user->name }}</p>
+                                        </div>
+                                        <div>
+                                            @if ($user->hasRole('admin'))
+                                                <span class="p-1 rounded-md border border-violet-500 bg-violet-700">admin</span>
+                                            @elseif($user->hasRole('student'))
+                                                <span class="p-1 rounded-md border border-blue-500 bg-blue-700">student</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </td>
 
                                 <td class="p-2 border-r border-white">
-                                    <p class="text-center">
-                                        {{ $company->location }}
-                                    </p>
+                                    <div class="flex justify-between items-center w-full ">
+                                        <span class="text-center">
+                                            {{ $user->email }}
+                                        </span>
+                                        @if ($user->hasVerifiedEmail())
+                                            <span class="text-green-700 bg-green-300 p-1 rounded-lg text-center mr-2">
+                                                verified</span>
+                                        @else
+                                            <span class="text-yellow-900 bg-yellow-400 p-1 rounded-lg text-center mr-2">
+                                                not verified</span>
+                                        @endif
+                                    </div>
+                                </td>
+
+                                <td class="p-2 border-r border-white text-center">
+                                    <a href="https://www.facebook.com" class="p-2 border rounded-md hover:bg-slate-700">
+                                        <strong
+                                            class="p-1 rounded-full border border-yellow-300 text-yellow-400 mr-1">{{ count($user->applyed_announcements) }}</strong>
+                                        announcements
+                                    </a>
                                 </td>
 
                                 <td class="p-2 text-right border-r border-white">
-                                    <form class="flex justify-center items-center m-0" onsubmit="return confirmDelete(event)"
-                                        action="{{ route('companies.destroy', $company->id) }}" method="POST">
+                                    <form class="flex justify-center items-center m-0"
+                                        action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                        onsubmit="return confirmDelete(event)">
                                         @csrf
                                         @method('DELETE')
                                         <button
-                                            class="hover:bg-red-500 font-semibold hover:text-white text-red-500 border border-red-500 rounded-md p-2"
-                                            >
+                                            class="hover:bg-red-500 font-semibold hover:text-white text-red-500 border border-red-500 rounded-md p-2">
                                             Delete
                                         </button>
                                     </form>
                                 </td>
 
                                 <td class="p-2 border-r border-white text-center">
-                                    <a href="{{ route('companies.edit', $company) }}"
+                                    <a href="{{ route('users.edit', $user) }}"
                                         class="hover:bg-green-500 font-semibold p-2.5 hover:text-white text-green-500 border border-green-500 rounded-md">
                                         Update
                                     </a>
                                 </td>
 
                                 <td class="p-2 text-center">
-                                    <a href="{{ route('companies.show', $company->id) }}" class=" text-blue-600">
+                                    <a href="{{ route('users.show', $user->id) }}" class=" text-blue-600">
                                         <svg class="w-5 m-auto text-gray-700 hover:scale-125"
                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                                             <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -92,7 +117,7 @@
                     </tbody>
                 </table>
                 <div class="p-2">
-                    {{ $companies->onEachSide(1)->links() }}
+                    {{ $users->onEachSide(1)->links() }}
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="shortcut icon" href="{{ asset("app_logo.png") }}" type="image/x-icon">
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
@@ -13,6 +14,12 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Tom-select style -->
+    {{-- <link href="https://unpkg.com/tailwindcss@%5E2/dist/tailwind.min.css" rel="stylesheet" /> --}}
+    {{-- <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" /> --}}
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <!-- Insert the blade containing the TinyMCE configuration and source script -->
     {{-- <x-head.tinymce-config/> --}}
@@ -35,12 +42,67 @@
         <main>
             {{ $slot }}
         </main>
+
+        <!-- Page footer -->
+        @include("layouts.footer")
     </div>
 
+    <!-- Include TomSelect (without jQuery) -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
+    <!-- Include jQuery separately, after TomSelect -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
     <script>
-        function confirmDelete() {
-            var confirmation = confirm(`Are you sure you want to delete it!`);
-            return confirmation;
+        //
+        function confirmDelete(event) {
+            // var confirmation = confirm(`Are you sure you want to delete it!`);
+            // return confirmation;
+            event.preventDefault();
+            Swal.fire({
+                title: "Are you sure you want to delete it!",
+                icon: "question",
+                iconHtml: "?",
+                iconColor: "red",
+                confirmButtonText: "yes",
+                confirmButtonColor: "red",
+                cancelButtonText: "no",
+                showCancelButton: true,
+                showCloseButton: true
+            })
+            .then((res)=>{
+                if(res.isConfirmed){
+                    event.target.submit();
+                }
+            });
+            return false;
+        }
+
+        // Initialize TomSelect
+        document.addEventListener('DOMContentLoaded', function() {
+            new TomSelect('#select-skill', {
+                maxItems: 50,
+            });
+
+            new TomSelect('#select-partener', {
+                maxItems: 50,
+            });
+        });
+        // alert session message
+        let alert = document.querySelector(".alert");
+        if (alert) {
+            let icon = alert.getAttribute("data-icon");
+            let title = alert.getAttribute("data-title");
+            let text = alert.textContent;
+            Swal.fire({
+                icon: icon,
+                title: title,
+                text: text,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            alert.classList.add("hidden");
         }
     </script>
 </body>

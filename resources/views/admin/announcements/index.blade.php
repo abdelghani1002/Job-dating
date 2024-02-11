@@ -9,10 +9,14 @@
         <div class="w-5/6">
             <div class="flex flex-row items-center py-1 w-full px-2 justify-between">
                 <h3 class="text-2xl font-bold text-cyan-800 dark:text-cyan-300">Announcements</h3>
-                <!-- Success alert -->
+                <!-- Success&Error alert -->
                 @if (session('success'))
-                    <p class="alert text-green-400 text-center">
+                    <p data-icon="success" data-title="Success." class="alert text-green-400 text-center">
                         {{ session('success') }}
+                    </p>
+                @elseif (session('error'))
+                    <p data-icon="error" data-title="Error!" class="alert text-red-400 text-center">
+                        {{ session('error') }}
                     </p>
                 @endif
                 <a class="cursor-pointer text-white font-bold bg-blue-600 rounded-xl p-2 h-10 hover:bg-blue-800"
@@ -24,17 +28,16 @@
 
             <div class="flex flex-col justify-between h-[79dvh] w-full">
 
-                <!-- Wikis Table -->
-                <table id="wikis_table" class="table-auto w-full text-sm whitespace-no-wrap border-spacing-2 px-2 pb-2">
+                <!-- Announcements Table -->
+                <table id="announcements_table" class="table-auto w-full text-sm whitespace-no-wrap border-spacing-2 px-2 pb-2">
                     <thead class="">
                         <tr class="bg-gray-400">
                             <th class="p-1 border-r border-gray-200">Title</th>
                             <th class="p-1 border-r border-gray-200">Start date</th>
                             <th class="p-1 border-r border-gray-200">End date</th>
-                            <th class="p-1 border-r border-gray-200" colspan="2">
+                            <th class="p-1 border-r border-gray-200" colspan="3">
                                 Manage
                             </th>
-                            <th class="p-1">View</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,13 +64,13 @@
                                 </td>
 
                                 <td class="p-2 text-right border-r border-white">
-                                    <form class="flex justify-center items-center m-0"
+                                    <form class="flex justify-center items-center m-0" onsubmit="return confirmDelete(event)"
                                         action="{{ route('announcements.destroy', $announcement->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button
                                             class="hover:bg-red-500 font-semibold hover:text-white text-red-500 border border-red-500 rounded-md p-2"
-                                            onclick="return confirmDelete()">
+                                            >
                                             Delete
                                         </button>
                                     </form>
@@ -100,12 +103,4 @@
             </div>
         </div>
     </div>
-    <script>
-        let alert = document.querySelector(".alert");
-        if (alert) {
-            setTimeout(() => {
-                alert.classList.add("hidden");
-            }, 3000);
-        }
-    </script>
 </x-app-layout>

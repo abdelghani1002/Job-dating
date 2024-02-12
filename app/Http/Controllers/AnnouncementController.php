@@ -7,6 +7,7 @@ use App\Http\Requests\StoreAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
 use App\Models\Company;
 use App\Models\Skill;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class AnnouncementController extends Controller
@@ -59,7 +60,13 @@ class AnnouncementController extends Controller
     {
         $parteners = $announcement->companies;
         $skills = $announcement->skills;
-        return view("admin.announcements.show", compact(['announcement', 'parteners', 'skills']));
+        $user = auth()->user();
+        if($user){
+            $unmatched_skills = $announcement->skills->filter(function ($skill) use ($user) {
+                return ! $user->skills->contains($skill);
+            });
+        }
+        return view("admin.announcements.show", compact(['announcement', 'parteners', 'skills', 'unmatched_skills']));
     }
 
     /**
@@ -108,8 +115,11 @@ class AnnouncementController extends Controller
      */
     public function apply(Announcement $announcement)
     {
-        $student = Auth::user();
+        $student = auth()->user();
         if (!$student->applyed_announcements->contains($announcement)) {
+            $diff_from_now = Carbon::now()->diff(Carbon::create("$announcement->end_date"));
+            if ( $diff_from_now->h > 0 )
+                return redirect()->back()->with("infos", "The job dating is passed !");
             if ($student->apply_to_announcement($announcement))
                 return redirect()->back()->with("success", "Your candidat has been registred");
             return redirect()->back()->with("error", "Error withen candidates!");

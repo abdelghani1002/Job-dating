@@ -21,32 +21,32 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $admin = \App\Models\User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'photo' => "default.png",
-            'email_verified_at' => now(),
-            'password' => Hash::make('AZER1234'),
-        ]);
+        // $admin = \App\Models\User::factory()->create([
+        //     'name' => 'Admin',
+        //     'email' => 'admin@admin.com',
+        //     'photo' => "default.png",
+        //     'email_verified_at' => now(),
+        //     'password' => Hash::make('AZER1234'),
+        // ]);
 
-        $student = \App\Models\User::factory()->create([
-            'name' => 'abdelghani',
-            'email' => 'abd@elghani.com',
-            'photo' => "default.png",
-            'email_verified_at' => now(),
-            'password' => Hash::make('AZER1234'),
-        ]);
-        $admin_role = Role::create(['name' => "admin"]);
-        $student_role = Role::create(['name' => "student"]);
-        $admin->assignRole([$admin_role]);
-        $student->assignRole([$student_role]);
-        User::factory(20)->create();
-        $users = User::get();
-        foreach ($users as $user) {
-            $user->assignRole('role');
-        }
-        Skill::factory(20)->create();
-        Company::factory(20)->create();
-        Announcement::factory(20)->create();
+        // $student = \App\Models\User::factory()->create([
+        //     'name' => 'abdelghani',
+        //     'email' => 'abd@elghani.com',
+        //     'photo' => "default.png",
+        //     'email_verified_at' => now(),
+        //     'password' => Hash::make('AZER1234'),
+        // ]);
+        // $admin_role = Role::create(['name' => "admin"]);
+        $student_role = Role::where('name', '=', "student");
+        // $admin->assignRole([$admin_role]);
+        // $student->assignRole([$student_role]);
+        // User::factory(20)->create();
+        $student_role = Role::where('name', '=', "student")->firstOrFail();
+
+
+
+        // Skill::factory(20)->create();
+        // Company::factory(20)->create();
+        // Announcement::factory(20)->create();
     }
 }

@@ -76,9 +76,12 @@ class Announcement extends Model
      */
     public function isSuggestionFor(User $student)
     {
+        $percentage = 0;
         if ($student->skills->count() != 0 && $this->skills->count() != 0) {
             $matching_skills = $this->skills->intersect($student->skills);
-            $percentage = ($this->skills->count() / $matching_skills->count()) * 100;
+            if ($matching_skills->count() > 0){
+                $percentage = ($this->skills->count() / $matching_skills->count()) * 100;
+            }
             if ($percentage >= 50) {
                 return true;
             }
